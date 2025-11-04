@@ -4,10 +4,9 @@ function parseSalary(salaryStr) {
   return Number(salaryStr.split('$').join('').split(',').join(''));
 }
 
-const list = document.querySelector('ul');
-const listItems = [...list.querySelectorAll('li')];
+function sortList(parentElement) {
+  const items = [...parentElement.querySelectorAll('li')];
 
-function sortList(items, listElement) {
   items.sort((a, b) => {
     const salaryA = parseSalary(a.getAttribute('data-salary'));
     const salaryB = parseSalary(b.getAttribute('data-salary'));
@@ -15,10 +14,12 @@ function sortList(items, listElement) {
     return salaryB - salaryA;
   });
 
-  items.forEach((item) => listElement.appendChild(item));
+  items.forEach((item) => parentElement.appendChild(item));
 }
 
-function getEmployees(items) {
+function getEmployees(parentElement) {
+  const items = [...parentElement.querySelectorAll('li')];
+
   return items.map((item) => {
     const salary = parseSalary(item.getAttribute('data-salary'));
 
@@ -31,5 +32,12 @@ function getEmployees(items) {
   });
 }
 
-sortList(listItems, list);
-getEmployees(listItems);
+// 🔹 Виклики
+const list = document.querySelector('ul');
+
+sortList(list);
+
+const employees = getEmployees(list);
+
+// eslint-disable-next-line no-console
+console.log(employees);
